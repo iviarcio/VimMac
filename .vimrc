@@ -21,9 +21,11 @@ if has('gui') && has('gui_running')
 	set guifont=Monaco:h14
 endif
 
+syntax on 						"turn on syntax highlighting
 highlight Comment cterm=italic
 
-set number
+set number						"line numbers on
+set backspace=indent,eol,start	"Allow backspace in insert mode
 set tabstop=4
 set autoindent
 set cursorline
