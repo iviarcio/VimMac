@@ -10,6 +10,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'rakr/vim-one'
 Plug 'klen/python-mode'
 Plug 'scrooloose/nerdtree'
+Plug 'lervag/vimtex'
 call plug#end()
 
 if (has("termguicolors"))
@@ -22,6 +23,8 @@ if has('gui') && has('gui_running')
 	set background=dark
 	set guifont=Monaco:h14
 endif
+
+let g:pymode_python='python3'
 
 syntax on 						"turn on syntax highlighting
 highlight Comment cterm=italic
