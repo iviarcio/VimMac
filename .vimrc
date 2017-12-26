@@ -8,6 +8,8 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'rakr/vim-one'
+Plug 'klen/python-mode'
+Plug 'scrooloose/nerdtree'
 call plug#end()
 
 if (has("termguicolors"))
