@@ -16,6 +16,7 @@ Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tommcdo/vim-exchange'
 call plug#end()
 
 if (has("termguicolors"))
@@ -39,10 +40,8 @@ au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 silent! nmap <C-p> :NERDTreeToggle<CR>
 silent! map <F2> :NERDTreeFind<CR>
 
-" Move to left-window, normally NERDTree
-nmap <F3> :wincmd h<CR>			
-" Move to right-window
-nmap <F4> :wincmd l<CR>			
+" nmap <F3> :wincmd h<CR>			
+" nmap <F4> :wincmd l<CR>			
 " close buffer
 nmap <F5> :bclose<CR>			
 " new empty buffer
@@ -72,6 +71,10 @@ set nohlsearch					" Don't highlight the strings found in search
 set nrformats=					" I don't use octal numbers, the Vim default
 set scrolloff=2 				" Keep 2 lines below and above the cursor
 
-" test it!
+" Remap keys
 nnoremap j jzz
 nnoremap k kzz
+map <C-h> <C-w>h				" Move to left-window, normally NERDTree
+map <C-j> <C-w>j				" focus the window to the down
+map <C-k> <C-w>k				" focus the window to the up
+map <C-l> <C-w>l			    " Move to right-window
