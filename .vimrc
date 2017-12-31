@@ -19,10 +19,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tommcdo/vim-exchange'
 call plug#end()
 
-if (has("termguicolors"))
-    set termguicolors
-endif
-
 let g:airline#extensions#tabline#enabled=1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod=':t' " Show just the filename
 let g:airline_theme='one'
@@ -32,6 +28,11 @@ if has('gui') && has('gui_running')
 	set guifont=Monaco:h14
 endif
 
+if (has("termguicolors"))
+    set termguicolors
+endif
+let g:one_allow_italics=1						 " I love italic for comments
+
 let g:pymode_python='python3'
 let g:pymode_folding=0
 
@@ -40,8 +41,6 @@ au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 silent! nmap <C-p> :NERDTreeToggle<CR>
 silent! map <F2> :NERDTreeFind<CR>
 
-" nmap <F3> :wincmd h<CR>			
-" nmap <F4> :wincmd l<CR>			
 " close buffer
 nmap <F5> :bclose<CR>			
 " new empty buffer
@@ -74,7 +73,17 @@ set scrolloff=2 				" Keep 2 lines below and above the cursor
 " Remap keys
 nnoremap j jzz
 nnoremap k kzz
-map <C-h> <C-w>h				" Move to left-window, normally NERDTree
-map <C-j> <C-w>j				" focus the window to the down
-map <C-k> <C-w>k				" focus the window to the up
-map <C-l> <C-w>l			    " Move to right-window
+" move to left-window, normally NERDTree
+map <C-h> <C-w>h
+" focus the window to the down
+map <C-j> <C-w>j
+" focus the window to the up
+map <C-k> <C-w>k
+" move to right-window
+map <C-l> <C-w>l
+
+" Customizing **one** colorscheme for comments
+call one#highlight('Comment', 'ade8e4', '', 'italic')
+call one#highlight('vimLineComment', 'ade8e4', '', 'italic')
+
+
