@@ -71,8 +71,11 @@ set nrformats=					" I don't use octal numbers, the Vim default
 set scrolloff=2 				" Keep 2 lines below and above the cursor
 
 " Remap keys
-nnoremap j jzz
-nnoremap k kzz
+" g0 & g$ goto begin and end of display line
+" up on display line, while k up on real line
+noremap <Up> gk
+" down on display line, while j down on real line
+noremap <Down> gj
 " move to left-window, normally NERDTree
 map <C-h> <C-w>h
 " focus the window to the down
@@ -85,5 +88,3 @@ map <C-l> <C-w>l
 " Customizing **one** colorscheme for comments
 call one#highlight('Comment', 'ade8e4', '', 'italic')
 call one#highlight('vimLineComment', 'ade8e4', '', 'italic')
-
-
