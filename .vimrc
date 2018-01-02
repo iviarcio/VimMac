@@ -2,6 +2,9 @@ set nocompatible
 
 autocmd! bufwritepost .vimrc source %
 
+filetype plugin on
+runtime macros/matchit.vim
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -40,6 +43,7 @@ let g:NERDTreeHijackNetrw=1
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 silent! nmap <C-p> :NERDTreeToggle<CR>
 silent! map <F2> :NERDTreeFind<CR>
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$', '\.lo$']
 
 " close buffer
 nmap <F5> :bclose<CR>			
@@ -69,6 +73,10 @@ set incsearch					" Use incremental search
 set nohlsearch					" Don't highlight the strings found in search
 set nrformats=					" I don't use octal numbers, the Vim default
 set scrolloff=2 				" Keep 2 lines below and above the cursor
+set textwidth=80
+set colorcolumn=82
+set path+=**
+set wildmenu
 
 " Remap keys
 " g0 & g$ goto begin and end of display line
@@ -84,6 +92,25 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 " move to right-window
 map <C-l> <C-w>l
+
+" easer moving of code blocks (visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+" show search results in the middle of the screen
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+
+" Create the 'tags' file (need to install ctags first)
+command! MakeTags !ctags -R .
+" Now:
+"  use <C-]> to jump to tag under cursor
+"  use <C-t> to jump back up the tag stack
+"  use g<C-]> for ambiguos tag
 
 " Customizing **one** colorscheme for comments
 call one#highlight('Comment', 'ade8e4', '', 'italic')
