@@ -20,6 +20,8 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tommcdo/vim-exchange'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 call plug#end()
 
 let g:airline#extensions#tabline#enabled=1     " Enable the list of buffers
@@ -70,7 +72,7 @@ set nobackup
 set noswapfile
 set clipboard=unnamed			" Use yank & put with clipboard
 set incsearch					" Use incremental search
-set nohlsearch					" Don't highlight the strings found in search
+set hlsearch					" highlight the strings found in search
 set nrformats=					" I don't use octal numbers, the Vim default
 set scrolloff=2 				" Keep 2 lines below and above the cursor
 set textwidth=80
@@ -92,6 +94,10 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 " move to right-window
 map <C-l> <C-w>l
+
+" To mute search highlighting typing :noh<CR>. The shortcut below
+" was disabled in favor of window movement (NERDTree)
+" nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 " easer moving of code blocks (visual mode)
 vnoremap < <gv
