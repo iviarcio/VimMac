@@ -44,7 +44,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
-Plug 'sheerun/vim-polyglot'
 Plug 'rakr/vim-one'
 Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary'
@@ -65,13 +64,6 @@ Plug 'pbrisbin/vim-syntax-shakespeare'
 
 " python
 Plug 'klen/python-mode'
-
-"********************************************************************
-
-"" Include user's extra bundle
-if filereadable(expand("~/.vimrc.local.bundles"))
-  source ~/.vimrc.local.bundles
-endif
 
 call plug#end()
 
@@ -115,8 +107,6 @@ set smartcase
 set nobackup
 set noswapfile
 
-set fileformats=unix,dos,mac
-
 if exists('$SHELL')
     set shell=$SHELL
 else
@@ -140,13 +130,11 @@ highlight Comment cterm=italic
 
 set mousemodel=popup
 set t_Co=256
-set guioptions=egmrti
-set gfn=Monospace\ 10
 
-colorscheme one 
+colorscheme one
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-	set background=dark	  
+	set background=dark
     set guifont=Monaco:h14
   endif
 else
@@ -155,7 +143,7 @@ else
   let g:indentLine_concealcursor = 0
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
-  
+
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -174,7 +162,7 @@ if (has("termguicolors"))
 endif
 
 " I love italic for comments
-let g:one_allow_italics=1						 
+let g:one_allow_italics=1
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
@@ -193,7 +181,7 @@ set titlestring=%F
 
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
-" Search mappings: 
+" Search mappings:
 " show search results in the middle of the screen
 nmap n nzz
 nmap N Nzz
@@ -211,7 +199,7 @@ let g:airline_theme='one'
 let g:airline#extensions#syntastic#enabled=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#fnamemod=':t' 
+let g:airline#extensions#tabline#fnamemod=':t'
 let g:airline#extensions#tagbar#enabled=1
 let g:airline_skip_empty_sections=1
 
@@ -236,7 +224,7 @@ let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
+let g:NERDTreeWinSize = 30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.pyo,*.o
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 nnoremap <silent> <F2> :NERDTreeFind<CR>
@@ -255,7 +243,7 @@ if !exists('*s:setupWrapping')
   function s:setupWrapping()
     set wrap
     set wm=2
-    set textwidth=80
+    set textwidth=79
   endfunction
 endif
 
@@ -321,11 +309,11 @@ nnoremap <silent> <S-t> :tabnew<CR>
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 
-"" Opens an edit command with the path of the currently edited 
+"" Opens an edit command with the path of the currently edited
 "" file filled in
 noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
-"" Opens a tab edit command with the path of the currently edited 
+"" Opens a tab edit command with the path of the currently edited
 "" file filled
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
@@ -337,6 +325,42 @@ let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
+
+" vimtex Settings
+set grepprg=grep\ -nH\ $*
+set sw=2
+set iskeyword+=:
+let g:tex_flavor='latex'
+let g:tex_fold_enabled=1
+let g:tex_nospell=1
+let g:tex_no_error=1
+
+let g:vimtex_view_general_viewer
+      \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
+
+function! UpdateSkim(status)
+  if !a:status | return | endif
+
+  let l:out = b:vimtex.out()
+  let l:tex = expand('%:p')
+  let l:cmd = [g:vimtex_view_general_viewer, '-r']
+  if !empty(system('pgrep Skim'))
+    call extend(l:cmd, ['-g'])
+  endif
+  if has('nvim')
+    call jobstart(l:cmd + [line('.'), l:out, l:tex])
+  elseif has('job')
+    call job_start(l:cmd + [line('.'), l:out, l:tex])
+  else
+    call system(join(l:cmd + [line('.'),
+          \ shellescape(l:out), shellescape(l:tex)], ' '))
+  endif
+endfunction
+
+nnoremap <leader>lc :VimtexCompile<CR>
+nnoremap <leader>lv :VimtexView<CR>
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -388,7 +412,7 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 
-"" Easer moving of code blocks (visual mode) 
+"" Easer moving of code blocks (visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
@@ -414,26 +438,27 @@ let g:necoghc_enable_detailed_browse = 1
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 
 " python
-let g:pymode_python='python3'
-let g:pymode_folding=0
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    let g:pymode_folding=0
+  endif
+else
+    let g:pymode_python='python3'
+    let g:pymode_folding=0
 
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=82
+    augroup vimrc-python
+    autocmd!
+    autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
+    augroup END
 
-" syntastic
-let g:syntastic_python_checkers=['python', 'flake8']
+    " syntastic
+    let g:syntastic_python_checkers=['python', 'flake8']
 
-" vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-
-" Syntax highlight
-" Default highlight is better than polyglot
-let g:polyglot_disabled = ['python']
-let python_highlight_all = 1
+    " vim-airline
+    let g:airline#extensions#virtualenv#enabled = 1
+endif
 
 "*********************************************************************
 
@@ -454,9 +479,9 @@ endif
 if !exists('g:airline_powerline_fonts')
   let g:airline#extensions#tabline#left_sep = ' '
   let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
+" let g:airline_left_sep          = '▶'
   let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
+" let g:airline_right_sep         = '◀'
   let g:airline_right_alt_sep     = '«'
   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
   let g:airline#extensions#readonly#symbol   = '⊘'
