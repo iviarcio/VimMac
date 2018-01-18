@@ -32,7 +32,8 @@ call plug#begin(expand('~/.vim/plugged'))
 " Plug install packages
 "********************************************************************
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -48,6 +49,7 @@ Plug 'rakr/vim-one'
 Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary'
 Plug 'tommcdo/vim-exchange'
+Plug 'ryanoasis/vim-devicons'
 
 "********************************************************************
 " Custom bundles
@@ -113,12 +115,6 @@ else
     set shell=/bin/sh
 endif
 
-" session management
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
-
 "********************************************************************
 " Visual Settings
 "********************************************************************
@@ -135,7 +131,7 @@ colorscheme one
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
 	set background=dark
-    set guifont=Monaco:h14
+    set guifont=Droid\ Sans\ Mono\ Nerd\ Font\ Complete:h16
   endif
 else
   " IndentLine
@@ -281,8 +277,8 @@ set autoread
 " Mappings
 "********************************************************************
 
-"" Split
-noremap <Leader>h :<C-u>split<CR>
+"" Split Window (default=horizontal: s(split), vertical: v)
+noremap <Leader>s :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
 
 "" Git
@@ -294,12 +290,6 @@ noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
-
-" session management
-nnoremap <leader>so :OpenSession<Space>
-nnoremap <leader>ss :SaveSession<Space>
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>sc :CloseSession<CR>
 
 "" Tabs
 nnoremap <Tab> gt
@@ -359,8 +349,8 @@ function! UpdateSkim(status)
   endif
 endfunction
 
-nnoremap <leader>lc :VimtexCompile<CR>
-nnoremap <leader>lv :VimtexView<CR>
+nnoremap <leader>c :VimtexCompile<CR>
+nnoremap <leader>w :VimtexView<CR>
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -387,14 +377,14 @@ if has('macunix')
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
 
-"" Buffer nav
-noremap <leader>z :bp<CR>
-noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
-noremap <leader>w :bn<CR>
+"" Buffer navigation
+noremap <leader>h :bf<CR>
+noremap <leader>l :bl<CR>
+noremap <leader>j :bn<CR>
+noremap <leader>k :bp<CR>
 
-"" Close buffer
-noremap <leader>c :bd<CR>
+"" Close buffer (or buffer delete)
+noremap <leader>d :bd<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
@@ -462,49 +452,19 @@ endif
 
 "*********************************************************************
 
-"" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
+"" Include Pg-Up & Pg-Down in a more easy way
+noremap <F7> <C-b>
+noremap <F8> <C-d>
+noremap <F9> <C-f>
 
 "*********************************************************************
 " Convenience variables
 "*********************************************************************
 
 " vim-airline
+let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
-endif
-
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-" let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-" let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
 endif
 
 " Create the 'tags' file (need to install ctags first)
