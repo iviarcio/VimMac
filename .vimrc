@@ -13,16 +13,15 @@ let g:vim_bootstrap_langs = "c,haskell,python"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
 if !filereadable(vimplug_exists)
-  if !executable("curl")
-    echoerr "You have to install curl or first install vim-plug yourself!"
-    execute "q!"
-  endif
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  let g:not_finish_vimplug = "yes"
-
-  autocmd VimEnter * PlugInstall
+   if !executable("curl")
+       echoerr "You have to install curl or first install vim-plug yourself!"
+       execute "q!"
+   endif
+   echo "Installing Vim-Plug..."
+   echo ""
+   silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+   let g:not_finish_vimplug = "yes"
+   autocmd VimEnter * PlugInstall
 endif
 
 " Required:
@@ -110,9 +109,9 @@ set nobackup
 set noswapfile
 
 if exists('$SHELL')
-    set shell=$SHELL
+   set shell=$SHELL
 else
-    set shell=/bin/sh
+   set shell=/bin/sh
 endif
 
 "********************************************************************
@@ -129,32 +128,32 @@ set t_Co=256
 
 colorscheme one
 if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-	set background=dark
-    set guifont=Droid\ Sans\ Mono\ Nerd\ Font\ Complete:h16
-  endif
+   if has("gui_mac") || has("gui_macvim")
+	  set background=dark
+      set guifont=Droid\ Sans\ Mono\ Nerd\ Font\ Complete:h16
+   endif
 else
-  " IndentLine
-  let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '┆'
-  let g:indentLine_faster = 1
+   " IndentLine
+   let g:indentLine_enabled=1
+   let g:indentLine_concealcursor=0
+   let g:indentLine_char='┆'
+   let g:indentLine_faster=1
 
-  if $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
-  else
-    if $TERM == 'xterm'
-      set term=xterm-256color
-    endif
-  endif
+   if $COLORTERM == 'gnome-terminal'
+      set term=gnome-256color
+   else
+      if $TERM == 'xterm'
+         set term=xterm-256color
+      endif
+   endif
 endif
 
 if &term =~ '256color'
-  set t_ut=
+   set t_ut=
 endif
 
 if (has("termguicolors"))
-    set termguicolors
+   set termguicolors
 endif
 
 " I love italic for comments
@@ -187,7 +186,7 @@ nmap g* g*zz
 nmap g# g#zz
 
 if exists("*fugitive#statusline")
-  set statusline+=%{fugitive#statusline()}
+   set statusline+=%{fugitive#statusline()}
 endif
 
 " vim-airline
@@ -219,8 +218,16 @@ let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.o$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 30
+let g:NERDTreeMapOpenInTabSilent='<RightMouse>'
+let g:NERDTreeWinSize=30
+let g:NERDTreeFileExtensionHighlightFullName=1
+let g:NERDTreeExactMatchHighlightFullName=1
+let g:NERDTreePatternMatchHighlightFullName=1
+let g:NERDTreeSyntaxDisableDefaultExtensions=1
+let g:NERDTreeDisableExactMatchHighlight=1
+let g:NERDTreeDisablePatternMatchHighlight=1
+let g:NERDTreeSyntaxEnabledExtensions=['c', 'h', 'cpp', 'js', 'css', 'py', 'pl', 'tex', 'hs', 'md', 'sh', 'vim', 'ipynb', 'txt']
+
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.pyo,*.o
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 nnoremap <silent> <F2> :NERDTreeFind<CR>
@@ -236,11 +243,11 @@ let Grep_Skip_Dirs = '.git node_modules'
 " Functions
 "*********************************************************************
 if !exists('*s:setupWrapping')
-  function s:setupWrapping()
-    set wrap
-    set wm=2
-    set textwidth=79
-  endfunction
+   function s:setupWrapping()
+      set wrap
+      set wm=2
+      set textwidth=79
+   endfunction
 endif
 
 "*********************************************************************
@@ -248,27 +255,27 @@ endif
 "*********************************************************************
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
-  autocmd!
-  autocmd BufEnter * :syntax sync maxlines=200
+   autocmd!
+   autocmd BufEnter * :syntax sync maxlines=200
 augroup END
 
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+   autocmd!
+   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
 "" txt
 augroup vimrc-wrapping
-  autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+   autocmd!
+   autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
 augroup END
 
 "" make/cmake
 augroup vimrc-make-cmake
-  autocmd!
-  autocmd FileType make setlocal noexpandtab
-  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+   autocmd!
+   autocmd FileType make setlocal noexpandtab
+   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
 
 set autoread
@@ -331,22 +338,22 @@ let g:vimtex_view_general_options = '-r @line @pdf @tex'
 let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
 
 function! UpdateSkim(status)
-  if !a:status | return | endif
+   if !a:status | return | endif
 
-  let l:out = b:vimtex.out()
-  let l:tex = expand('%:p')
-  let l:cmd = [g:vimtex_view_general_viewer, '-r']
-  if !empty(system('pgrep Skim'))
-    call extend(l:cmd, ['-g'])
-  endif
-  if has('nvim')
-    call jobstart(l:cmd + [line('.'), l:out, l:tex])
-  elseif has('job')
-    call job_start(l:cmd + [line('.'), l:out, l:tex])
-  else
-    call system(join(l:cmd + [line('.'),
+   let l:out = b:vimtex.out()
+   let l:tex = expand('%:p')
+   let l:cmd = [g:vimtex_view_general_viewer, '-r']
+   if !empty(system('pgrep Skim'))
+      call extend(l:cmd, ['-g'])
+   endif
+   if has('nvim')
+      call jobstart(l:cmd + [line('.'), l:out, l:tex])
+   elseif has('job')
+      call job_start(l:cmd + [line('.'), l:out, l:tex])
+   else
+      call system(join(l:cmd + [line('.'),
           \ shellescape(l:out), shellescape(l:tex)], ' '))
-  endif
+   endif
 endfunction
 
 nnoremap <leader>c :VimtexCompile<CR>
@@ -359,12 +366,12 @@ let g:tagbar_autofocus = 1
 " Disable visualbell
 set noerrorbells visualbell t_vb=
 if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
+   autocmd GUIEnter * set visualbell t_vb=
 endif
 
 "" Copy/Paste/Cut
 if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
+   set clipboard=unnamed,unnamedplus
 endif
 
 noremap YY "+y<CR>
@@ -372,9 +379,9 @@ noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
 if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
+   " pbcopy for OSX copy/paste
+   vmap <C-x> :!pbcopy<CR>
+   vmap <C-c> :w !pbcopy<CR><CR>
 endif
 
 "" Buffer navigation
@@ -429,25 +436,25 @@ autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 
 " python
 if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-    let g:pymode_folding=0
-  endif
+   if has("gui_mac") || has("gui_macvim")
+      let g:pymode_folding=0
+   endif
 else
-    let g:pymode_python='python3'
-    let g:pymode_folding=0
+   let g:pymode_python='python3'
+   let g:pymode_folding=0
 
-    augroup vimrc-python
-    autocmd!
-    autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
+   augroup vimrc-python
+   autocmd!
+   autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-    augroup END
+   augroup END
 
-    " syntastic
-    let g:syntastic_python_checkers=['python', 'flake8']
+   " syntastic
+   let g:syntastic_python_checkers=['python', 'flake8']
 
-    " vim-airline
-    let g:airline#extensions#virtualenv#enabled = 1
+   " vim-airline
+   let g:airline#extensions#virtualenv#enabled = 1
 endif
 
 "*********************************************************************
@@ -464,7 +471,7 @@ noremap <F9> <C-f>
 " vim-airline
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+   let g:airline_symbols = {}
 endif
 
 " Create the 'tags' file (need to install ctags first)
@@ -477,4 +484,14 @@ command! MakeTags !ctags -R .
 " Customizing **one** colorscheme for comments
 call one#highlight('Comment', 'ade8e4', '', 'italic')
 call one#highlight('vimLineComment', 'ade8e4', '', 'italic')
+
+"********************************************************************
+" Some plugin's help
+"********************************************************************
+
+" Commentary.vim
+" gcc to comment a line
+" gc<motion>, e.g. gcap to comment a paragraph
+" gcgc uncomment
+
 
