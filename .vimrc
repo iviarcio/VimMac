@@ -92,6 +92,14 @@ set softtabstop=0
 set shiftwidth=4
 set expandtab
 
+if !exists('*s:setupWrapping')
+   function s:setupWrapping()
+      set wrap
+      set wm=2
+      set textwidth=79
+   endfunction
+endif
+
 "" Map leader to ,
 let mapleader=','
 
@@ -174,8 +182,6 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
-
 " Search mappings:
 " show search results in the middle of the screen
 nmap n nzz
@@ -185,10 +191,6 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 
-if exists("*fugitive#statusline")
-   set statusline+=%{fugitive#statusline()}
-endif
-
 " vim-airline
 let g:airline_theme='one'
 let g:airline#extensions#syntastic#enabled=1
@@ -197,9 +199,12 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#fnamemod=':t'
 let g:airline#extensions#tagbar#enabled=1
 let g:airline_skip_empty_sections=1
+let g:airline_powerline_fonts=1
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+endif
 
 " Abbreviations
-"" no one is really happy until you have this shortcuts
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
 cnoreabbrev Qall! qall!
@@ -232,23 +237,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.pyo,*.o
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
-
-" grep.vim
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
-
-"*********************************************************************
-" Functions
-"*********************************************************************
-if !exists('*s:setupWrapping')
-   function s:setupWrapping()
-      set wrap
-      set wm=2
-      set textwidth=79
-   endfunction
-endif
 
 "*********************************************************************
 " Autocmd Rules
@@ -313,6 +301,17 @@ noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 "" Opens a tab edit command with the path of the currently edited
 "" file filled
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+if exists("*fugitive#statusline")
+   set statusline+=%{fugitive#statusline()}
+endif
+
+" grep.vim
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
 
 " syntastic
 let g:syntastic_always_populate_loc_list=1
@@ -468,12 +467,6 @@ noremap <F9> <C-f>
 " Convenience variables
 "*********************************************************************
 
-" vim-airline
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-   let g:airline_symbols = {}
-endif
-
 " Create the 'tags' file (need to install ctags first)
 command! MakeTags !ctags -R .
 " Now:
@@ -494,4 +487,9 @@ call one#highlight('vimLineComment', 'ade8e4', '', 'italic')
 " gc<motion>, e.g. gcap to comment a paragraph
 " gcgc uncomment
 
+" Fugitive.vim
+" :Gstatus == git Status
+" - == git add
+" :Gedit  == edit a file and write to stage
+" :Gcommit == git commit
 
