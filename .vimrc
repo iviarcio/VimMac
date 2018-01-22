@@ -51,6 +51,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'ajh17/VimCompletesMe'
 Plug 'tmhedberg/SimpylFold'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 "********************************************************************
 " Custom bundles
@@ -284,9 +286,9 @@ noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <S-t> :tabnew<CR>
+" nnoremap <Tab> gt
+" nnoremap <S-Tab> gT
+" nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
@@ -390,11 +392,11 @@ noremap <Up> gk
 " down on display line, while j down on real line
 noremap <Down> gj
 
-"" Switching windows
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-noremap <C-h> <C-w>h
+"" Switching windows (normal mode only)
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
 
 "" Easer moving of code blocks (visual mode)
 vnoremap < <gv
@@ -430,6 +432,12 @@ augroup END
 
 " vim-airline
 let g:airline#extensions#virtualenv#enabled=1
+
+" UltiSnippets
+let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "*********************************************************************
 " Convenience variables
