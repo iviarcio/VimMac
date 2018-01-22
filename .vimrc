@@ -9,8 +9,8 @@ autocmd! bufwritepost .vimrc source %
 runtime macros/matchit.vim
 
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
-let g:vim_bootstrap_langs = "c,haskell,python"
-let g:vim_bootstrap_editor = "vim"              " nvim or vim
+let g:vim_bootstrap_langs = "c,python"
+let g:vim_bootstrap_editor = "vim"
 
 if !filereadable(vimplug_exists)
   if !executable("curl")
@@ -42,29 +42,25 @@ Plug 'vim-scripts/grep.vim'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
-Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
 Plug 'rakr/vim-one'
 Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary'
 Plug 'tommcdo/vim-exchange'
 Plug 'ryanoasis/vim-devicons'
+Plug 'sheerun/vim-polyglot'
+Plug 'ajh17/VimCompletesMe'
+Plug 'tmhedberg/SimpylFold'
 
 "********************************************************************
 " Custom bundles
 "********************************************************************
 
-" c
-Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-Plug 'ludwig/split-manpage.vim'
+"" c/c++
+Plug 'octol/vim-cpp-enhanced-highlight'
 
-" haskell
-Plug 'eagletmt/neco-ghc'
-Plug 'dag/vim2hs'
-Plug 'pbrisbin/vim-syntax-shakespeare'
-
-" python
-Plug 'klen/python-mode'
+""  python
+Plug 'python-mode/python-mode'
 
 call plug#end()
 
@@ -88,7 +84,7 @@ set backspace=indent,eol,start
 
 "" Tabs. May be overridden by autocmd rules
 set tabstop=4
-set softtabstop=0
+set softtabstop=4
 set shiftwidth=4
 set expandtab
 
@@ -114,6 +110,7 @@ set smartcase
 
 "" Directories for swp files
 set nobackup
+set nowritebackup
 set noswapfile
 
 if exists('$SHELL')
@@ -193,7 +190,6 @@ nmap g# g#zz
 
 " vim-airline
 let g:airline_theme='one'
-let g:airline#extensions#syntastic#enabled=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#fnamemod=':t'
@@ -224,7 +220,7 @@ let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent='<RightMouse>'
-let g:NERDTreeWinSize=30
+let g:NERDTreeWinSize=40
 let g:NERDTreeFileExtensionHighlightFullName=1
 let g:NERDTreeExactMatchHighlightFullName=1
 let g:NERDTreePatternMatchHighlightFullName=1
@@ -241,7 +237,8 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 "*********************************************************************
 " Autocmd Rules
 "*********************************************************************
-"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
+
+"" do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
   autocmd!
   autocmd BufEnter * :syntax sync maxlines=200
@@ -312,15 +309,6 @@ nnoremap <silent> <leader>f :Rgrep<CR>
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
-
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
 
 " vimtex Settings
 set grepprg=grep\ -nH\ $*
@@ -427,34 +415,21 @@ nnoremap <Leader>o :.Gbrowse<CR>
 autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
 
-" haskell
-let g:haskell_conceal_wide = 1
-let g:haskell_multiline_strings = 1
-let g:necoghc_enable_detailed_browse = 1
-autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
-
 " python
-if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-    let g:pymode_folding=0
-  endif
-else
+let g:pymode_folding=0
+if has('python3')
   let g:pymode_python='python3'
-  let g:pymode_folding=0
-
-  augroup vimrc-python
-    autocmd!
-    autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
-          \ formatoptions+=croq softtabstop=4
-          \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  augroup END
-
-  " syntastic
-  let g:syntastic_python_checkers=['python', 'flake8']
-
-  " vim-airline
-  let g:airline#extensions#virtualenv#enabled = 1
 endif
+
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
+        \ formatoptions+=croq softtabstop=4
+        \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
+
+" vim-airline
+let g:airline#extensions#virtualenv#enabled=1
 
 "*********************************************************************
 " Convenience variables
