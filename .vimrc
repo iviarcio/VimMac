@@ -44,11 +44,9 @@ Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 Plug 'rakr/vim-one'
-Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary'
 Plug 'tommcdo/vim-exchange'
 Plug 'ryanoasis/vim-devicons'
-Plug 'sheerun/vim-polyglot'
 Plug 'ajh17/VimCompletesMe'
 Plug 'tmhedberg/SimpylFold'
 Plug 'SirVer/ultisnips'
@@ -63,6 +61,12 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 ""  python
 Plug 'python-mode/python-mode'
+
+"" latex
+Plug 'lervag/vimtex'
+
+"" markdown
+Plug 'suan/vim-instant-markdown'
 
 call plug#end()
 
@@ -127,9 +131,11 @@ endif
 syntax on
 set ruler
 set number
+set relativenumber
 
 highlight Comment cterm=italic
 
+set mouse=n
 set mousemodel=popup
 set t_Co=256
 
@@ -312,7 +318,6 @@ let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
 
-" vimtex Settings
 set grepprg=grep\ -nH\ $*
 set sw=2
 set iskeyword+=:
@@ -363,6 +368,7 @@ if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
 
+set pastetoggle=<F5>
 noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
@@ -370,7 +376,7 @@ noremap XX "+x<CR>
 if has('macunix')
   " pbcopy for OSX copy/paste
   vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
+  vmap <C-p> :w !pbcopy<CR><CR>
 endif
 
 "" Buffer navigation
@@ -418,26 +424,39 @@ autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
 
 " python
-let g:pymode_folding=0
-if has('python3')
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    let g:pymode=1
+    let g:pymode_folding=0
+    let g:pymode_python='python3'
+  endif
+else
+  let g:pymode_folding=0
   let g:pymode_python='python3'
-endif
-
-augroup vimrc-python
+  augroup vimrc-python
   autocmd!
   autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
-        \ formatoptions+=croq softtabstop=4
-        \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-
-" vim-airline
-let g:airline#extensions#virtualenv#enabled=1
+    \ formatoptions+=croq softtabstop=4
+    \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  augroup END
+  " vim-airline
+  let g:airline#extensions#virtualenv#enabled=1
+  " UltiSnippets
+  let g:UltiSnipsUsePythonVersion=3
+endif
 
 " UltiSnippets
-let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+
+"" Markdown
+let g:instant_markdown_slow=1
+let g:instant_markdown_autostart=0
+nnoremap <Leader>m :InstantMarkdownPreview<CR>
 
 "*********************************************************************
 " Convenience variables
