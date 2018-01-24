@@ -423,37 +423,40 @@ nnoremap <Leader>o :.Gbrowse<CR>
 autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
 
-" python
-if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-    let g:pymode=1
-    let g:pymode_folding=0
-    let g:pymode_python='python3'
-  endif
-else
-  let g:pymode_folding=0
-  let g:pymode_python='python3'
-  augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
-    \ formatoptions+=croq softtabstop=4
-    \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  augroup END
-  " vim-airline
-  let g:airline#extensions#virtualenv#enabled=1
-  " UltiSnippets
-  let g:UltiSnipsUsePythonVersion=3
-endif
+"" python-mode
+let g:pymode_python='python3'
+
+" fold
+let g:pymode_folding=0
+
+" rope
+let g:pymode_rope=0
+let g:pymode_rope_completion=0
+let g:pymode_rope_complete_on_dot=0
+let g:pymode_rope_auto_project=0
+let g:pymode_rope_enable_autoimport=0
+let g:pymode_rope_autoimport_generate=0
+let g:pymode_rope_guess_project=0
+
+" syntax highlight
+let g:pymode_syntax=1
+let g:pymode_syntax_all=1
+
+" pep8 indents
+let g:pymode_indent=1
+
+" vim-airline
+let g:airline#extensions#virtualenv#enabled=1
 
 " UltiSnippets
+let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
+"" Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
-
-"" Markdown
 let g:instant_markdown_slow=1
 let g:instant_markdown_autostart=0
 nnoremap <Leader>m :InstantMarkdownPreview<CR>
