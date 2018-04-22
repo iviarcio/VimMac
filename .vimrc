@@ -51,6 +51,7 @@ Plug 'ajh17/VimCompletesMe'
 Plug 'tmhedberg/SimpylFold'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'derekwyatt/vim-scala'
 
 "********************************************************************
 " Custom bundles
@@ -118,6 +119,9 @@ set smartcase
 set nobackup
 set nowritebackup
 set noswapfile
+
+set fileformats=mac,unix,dos
+" Use :e ++ff=dos to hide ^M when editing Windows files on Mac/Unix
 
 if exists('$SHELL')
   set shell=$SHELL
@@ -387,6 +391,8 @@ noremap <leader>k :bp<CR>
 
 "" Close buffer (or buffer delete)
 noremap <leader>d :bd<CR>
+"" Close buffer without close window
+nnoremap <silent> <leader>q :lclose<bar>b#<bar>bd #<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
