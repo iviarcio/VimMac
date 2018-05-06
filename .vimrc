@@ -45,6 +45,7 @@ Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 Plug 'rakr/vim-one'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-vinegar'
 Plug 'tommcdo/vim-exchange'
 Plug 'ryanoasis/vim-devicons'
 Plug 'ajh17/VimCompletesMe'
@@ -52,6 +53,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'derekwyatt/vim-scala'
+Plug 'ctrlpvim/ctrlp.vim'
 
 "********************************************************************
 " Custom bundles
