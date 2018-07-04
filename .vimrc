@@ -9,7 +9,7 @@ autocmd! bufwritepost .vimrc source %
 runtime macros/matchit.vim
 
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
-let g:vim_bootstrap_langs = "c,python"
+let g:vim_bootstrap_langs = "c,python,haskell,scala"
 let g:vim_bootstrap_editor = "vim"
 
 if !filereadable(vimplug_exists)
@@ -54,6 +54,9 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'derekwyatt/vim-scala'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'w0rp/ale'
+Plug 'eagletmt/ghcmod-vim'
+Plug 'terryma/vim-multiple-cursors'
 
 "********************************************************************
 " Custom bundles
@@ -248,6 +251,9 @@ au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 
+" Enable completion where available.
+let g:ale_completion_enabled = 1
+
 "*********************************************************************
 " Autocmd Rules
 "*********************************************************************
@@ -304,6 +310,13 @@ noremap <Leader>gr :Gremove<CR>
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
+
+"" Search down into subfolders
+"" Provide tab-completion for all file-related tasks
+set path+=**
+
+"" Display all matching files when we tab complete
+set wildmenu
 
 "" Opens an edit command with the path of the currently edited
 "" file filled in
