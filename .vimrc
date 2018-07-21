@@ -5,6 +5,11 @@ if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
 
+" Temporary fix for vim/vim#3117
+if has('python3')
+  silent! python3 1
+endif
+
 autocmd! bufwritepost .vimrc source %
 runtime macros/matchit.vim
 
@@ -35,6 +40,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
@@ -44,14 +50,12 @@ Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 Plug 'rakr/vim-one'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-vinegar'
 Plug 'tommcdo/vim-exchange'
 Plug 'ryanoasis/vim-devicons'
 Plug 'ajh17/VimCompletesMe'
 Plug 'tmhedberg/SimpylFold'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'     'Disabled for now. Incompatible with Python 3.7'
+" Plug 'honza/vim-snippets'   'Same'
 Plug 'derekwyatt/vim-scala'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'w0rp/ale'
@@ -66,7 +70,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 ""  python
-Plug 'python-mode/python-mode'
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
 "" latex
 Plug 'lervag/vimtex'
@@ -125,7 +129,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-set fileformats=mac,unix,dos
+set fileformats=unix,dos
 " Use :e ++ff=dos to hide ^M when editing Windows files on Mac/Unix
 
 if exists('$SHELL')
@@ -470,10 +474,10 @@ let g:pymode_indent=1
 let g:airline#extensions#virtualenv#enabled=1
 
 " UltiSnippets
-let g:UltiSnipsUsePythonVersion=3
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+"let g:UltiSnipsUsePythonVersion=3
+"let g:UltiSnipsExpandTrigger="<c-l>"
+"let g:UltiSnipsJumpForwardTrigger="<c-j>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "" Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
