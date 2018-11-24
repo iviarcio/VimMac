@@ -54,8 +54,8 @@ Plug 'tommcdo/vim-exchange'
 Plug 'ryanoasis/vim-devicons'
 Plug 'ajh17/VimCompletesMe'
 Plug 'tmhedberg/SimpylFold'
-" Plug 'SirVer/ultisnips'     'Disabled for now. Incompatible with Python 3.7'
-" Plug 'honza/vim-snippets'   'Same'
+" Plug 'SirVer/ultisnips'     "Disabled for now. Incompatible with Python 3.7
+" Plug 'honza/vim-snippets'   "Same
 Plug 'derekwyatt/vim-scala'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'w0rp/ale'
@@ -153,9 +153,9 @@ set mousemodel=popup
 set t_Co=256
 
 colorscheme one
+set background=dark
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-    set background=dark
     set guifont=Droid\ Sans\ Mono\ Nerd\ Font\ Complete:h16
   endif
 else
@@ -241,7 +241,7 @@ let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent='<RightMouse>'
-let g:NERDTreeWinSize=40
+let g:NERDTreeWinSize=30
 let g:NERDTreeFileExtensionHighlightFullName=1
 let g:NERDTreeExactMatchHighlightFullName=1
 let g:NERDTreePatternMatchHighlightFullName=1
@@ -524,3 +524,11 @@ call one#highlight('vimLineComment', 'ade8e4', '', 'italic')
 " :Gedit  == edit a file and write to stage
 " :Gcommit == git commit
 
+" Opening and closing folds
+" zc will close a fold (if the cursor is in an open fold),
+" zo will open a fold (if the cursor is in a closed fold).
+" za toggle the current fold (close it if it was open, or open it if it was closed).
+
+" zC, zO and zA are similar, but operate on all folding levels
+" zr reduces folding by opening one more level of folds throughout the whole buffer
+" zR to open all folds.
